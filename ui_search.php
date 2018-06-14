@@ -6,60 +6,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>搜尋 - 美食東華</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css" integrity="sha256-HEtF7HLJZSC3Le1HcsWbz1hDYFPZCqDhZa9QsCgVUdw="
-        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
 <body>
-    <div id="nav-placeholder"> </div>
-    <script>
-        $(function () {
-            $("#nav-placeholder").load("ui_navbar.php");
-        });
-    </script>
+<div id="nav-placeholder"></div>
+<script>
+    $(function () {
+        $("#nav-placeholder").load("ui_navbar.php");
+    });
+</script>
 
-    <section class="hero is-success">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="column is-4 is-offset-4">
-                    <h3 class="title has-text-grey">搜尋</h3>
-                    <p class="subtitle has-text-grey">請輸入至少一個項目來搜尋餐點，<br>或留白以列出全部項目</p>
-                    <div class="box">
+<section class="hero is-success">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <h3 class="title has-text-grey">搜尋</h3>
+                <p class="subtitle has-text-grey">請輸入至少一個項目來搜尋餐點，<br>或留白以列出全部項目</p>
+                <div class="box">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input is-large" name="restaurant_name" type="text" placeholder="店家名稱" autofocus="">
-                                </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="restaurant_name" type="text" placeholder="店家名稱"
+                                       autofocus="">
                             </div>
+                        </div>
 
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input is-large" name="food_name" type="text" placeholder="餐點名稱">
-                                </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="food_name" type="text" placeholder="餐點名稱">
                             </div>
+                        </div>
 
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input is-large" name="price_higher_than" type="text" placeholder="價位高於">
-                                </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="price_higher_than" type="text" placeholder="價位高於">
                             </div>
+                        </div>
 
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input is-large" name="price_lower_than" type="text" placeholder="價位低於">
-                                </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="price_lower_than" type="text" placeholder="價位低於">
                             </div>
-                            <input type="hidden" name="action" value="search">
-                            <input class="button is-block is-success is-large" type="submit" value="搜尋">
-                        </form>
-                    </div>
+                        </div>
+                        <input type="hidden" name="action" value="search">
+                        <input class="button is-block is-success is-large" type="submit" value="搜尋">
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
-    <script async type="text/javascript" src="js/bulma.js"></script>
+    </div>
+</section>
+<script async type="text/javascript" src="js/bulma.js"></script>
 </body>
 </html>
 <?php
@@ -81,9 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $addfav_query = 'INSERT INTO `users_favorite` (`user_favorite_id`, `user_id`, `food_id`) VALUES (NULL, ';
         $addfav_query .= $user_id . ',' . $_POST["food_id"] . ')';
         if ($addfav_query_result = mysqli_query($db_link, $addfav_query)) {
-            echo ('<center>已經新增到關注清單。</center>');
+            echo('<center>已經新增到關注清單。</center>');
         } else {
-            echo ('<center>新增到關注清單時發生意外</center>');
+            echo('<center>新增到關注清單時發生意外</center>');
         }
 
     } else {
