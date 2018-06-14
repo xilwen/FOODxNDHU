@@ -8,7 +8,7 @@
     <title>搜尋 - 美食東華</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/login.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
 <body>
@@ -122,8 +122,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo '<center><table class="table"><thead><tr><th>店家名稱</th><th>餐點名稱</th><th>餐點價位</th><th>加入關注清單</th></tr></thead><tbody>';
                 while ($data = mysqli_fetch_assoc($integrate_query_result)) {
                     echo '<tr>';
-                    echo '<td><a href = detail_restaurant.php?store_id=' . $data['store_id'] . '>' . $data['restaurant_name'] . '</a></td>';
-                    echo '<td><a href = detail_food.php?food_id=' . $data['food_id'] . '>' . $data['food_name'] . '</td>';
+                    echo '<td>' . $data['restaurant_name'] . '</td>';
+                    echo '<td>' . $data['food_name'] . '</td>';
                     echo '<td>' . $data['food_price'] . '</td>';
                     echo '<td><form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .
                         '" method="POST"><input class="button is-block is-primary" type="submit" value="加入"><input type="hidden" name="action" value="addFav">' .
