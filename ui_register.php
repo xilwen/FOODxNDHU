@@ -17,6 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $register_error_message .= "發生錯誤，請稍後再試" . mysqli_error($db_link);
         }
+        //Check disposable email
+        $key = 'a86b6117b9757a2cc8758926afcb7f9d-user1'; 
+        $request = 'http://api.nameapi.org/rest/v5.3/email/disposableemailaddressdetector?apiKey=' . $key . '&emailAddress=' . trim($_POST["email"]);
+        $response = file_get_contents($request);
+        $dea = json_decode($response);
+        if ($dea->disposable  == 'YES') {
+            $register_error_message .= "請勿使用一次性電子郵件";
+        }
         //check password and confirm
         //TODO Shadow Password
         if (empty(trim($_POST['password']))) {
