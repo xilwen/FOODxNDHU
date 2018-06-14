@@ -8,7 +8,7 @@
     <title><!--TODO get food name here by PHP-->美食東華</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 <body>
 <div id="nav-placeholder"></div>
@@ -18,7 +18,13 @@
     });
 </script>
 
+<?php
+if (!isset($_GET["food_id"])) {
+    header("location: index.php");
+}
 
+
+?>
 <!-- food name, price and other information here -->
 <!-- automatic comment tiles here -->
 <!-- new comment field here-->
