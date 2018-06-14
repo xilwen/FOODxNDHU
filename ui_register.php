@@ -17,6 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $register_error_message .= "發生錯誤，請稍後再試" . mysqli_error($db_link);
         }
+        //check disposable mail
+        $key = 'a86b6117b9757a2cc8758926afcb7f9d-user1'; 
+        $request = 'http://api.nameapi.org/rest/v5.3/email/disposableemailaddressdetector?apiKey=' . $key . '&emailAddress=' . trim($_POST["email"]);
+        $response = file_get_contents($request);
+        $dea = json_decode($response);
+        if ($dea->disposable == 'YES') {
+            $register_error_message .= "請使用非臨時電子郵件註冊";
+        }
         //check password and confirm
         //TODO Shadow Password
         if (empty(trim($_POST['password']))) {
@@ -65,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>註冊 - 美食東華</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/login.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
 <body>
