@@ -63,21 +63,19 @@ if (!empty($error_message)) {
             <h2 class="subtitle">
                 持續追蹤、關注或取消關注有興趣的餐點
             </h2>
-        </div>
-    </div>
-</section>
-<div class="tile is-ancestor">
-    <div class="tile is-parent is-vertical">
+
+<div class="columns is-multiline">
         <?php
         if (!empty($user_id)) {
             $user_favorite_query = "SELECT `user_favorite_id`, `food_id` FROM `users_favorite` WHERE `user_id`=";
             $user_favorite_query .= $user_id;
             if ($user_favorite_query_result = mysqli_query($db_link, $user_favorite_query)) {
                 if (mysqli_num_rows($user_favorite_query_result) == 0) {
-                    echo '<article class="tile is-child notification is-primary">目前沒有任何關注中的項目。</article>';
+                    echo '<div class="column is-one-quarter">';
+                    echo '<article class="column is-child notification is-primary">目前沒有任何關注中的項目。</article>';
                 } else {
                     while (($data = mysqli_fetch_assoc($user_favorite_query_result))) {
-                        echo '<article class="tile is-child notification is-primary">';
+                        echo '<div class="column is-one-quarter " >';
                         $food_id = $data['food_id'];
                         $restaurant_name = "";
                         $food_query = "SELECT `restaurant_id`,`food_name`,`food_price` FROM `food` WHERE `food_id`=" . $food_id;
@@ -105,14 +103,18 @@ if (!empty($error_message)) {
                             echo '讀取餐點資訊時發生錯誤';
                         }
                         $user_favorite_id = $data['user_favorite_id'];
-                        echo "$food_name<br>餐廳：$restaurant_name<br>$food_price 元<br>";
+                        
+                        echo '<div class="is-primary notification">';
+                        echo "<p class=\"subtitle\">$food_name</p>";
+                        echo "餐廳：$restaurant_name<br>$food_price 元<br>";
                         echo '<form action="';
                         echo htmlspecialchars($_SERVER["PHP_SELF"]);
                         echo '" method="POST">';
                         echo '<input class="button is-block is-danger" type="submit" value="刪除">';
                         echo "<input type=\"hidden\" name=\"user_favorite_id\" value=$user_favorite_id>";
                         echo '</form>';
-                        echo '</article>';
+                        echo '</div>';
+                        echo '</div>';
                     }
                 }
             } else {
@@ -121,7 +123,9 @@ if (!empty($error_message)) {
         }
         ?>
     </div>
-</div>
+        </div>
+    </div>
+</section>
 </body>
 
 </html>
