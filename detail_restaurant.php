@@ -1,3 +1,10 @@
+<?php
+if (!isset($_GET["store_id"])) {
+    header("location: index.php");
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,14 +24,10 @@
         $("#nav-placeholder").load("ui_navbar.php");
     });
 </script>
-<?php
-if (!isset($_GET["store_id"])) {
-    header("location: index.php");
-}
 
 
 
-?>
+
 
 <!-- restaurant name, contact info and other information here -->
 <!-- automatic comment tiles here -->
