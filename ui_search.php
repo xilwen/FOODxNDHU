@@ -121,15 +121,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo '<center><table class="table"><thead><tr><th>店家名稱</th><th>餐點名稱</th><th>餐點價位</th><th>加入關注清單</th></tr></thead><tbody>';
                 while ($data = mysqli_fetch_assoc($integrate_query_result)) {
+                    $fav_check_query = "SELECT users.id FROM users_favorite LEFT JOIN users ON users.id = users_favorite.user_id WHERE users.email = \"" . $_SESSION['username'] . "\" AND users_favorite.food_id = " . $data['food_id'];
                     echo '<tr>';
                     echo '<td><a href = detail_restaurant.php?store_id=' . $data['store_id'] . '>' . $data['restaurant_name'] . '</a></td>';
                     echo '<td><a href = detail_food.php?food_id=' . $data['food_id'] . '>' . $data['food_name'] . '</td>';
                     echo '<td>' . $data['food_price'] . '</td>';
-                    echo '<td><form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .
-                        '" method="POST"><input class="button is-block is-primary" type="submit" value="加入"><input type="hidden" name="action" value="addFav">' .
-                        '<input type="hidden" name="food_id" value=' . $data['food_id'] . '></form>'
-                        . '</td>';
-                    echo '</tr>';
+                    if(!($fav_check = mysqli_query($db_link, $fav_check_query)))
+                    {
+                        echo '<td><form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .
+                            '" method="POST"><input class="button is-block is-primary" type="submit" value="加入"><input type="hidden" name="action" value="addFav">' .
+                            '<input type="hidden" name="food_id" value=' . $data['food_id'] . '></form>'
+                            . '</td>';
+                       
+                    }
+                    else
+                    {
+                        echo '<td><input class="button is-block is-warning" type="submit" value="已加入">'
+                            . '</td>';
+                    }
+                     echo '</tr>';
                 }
 
                 echo '</tbody></table></center>';
