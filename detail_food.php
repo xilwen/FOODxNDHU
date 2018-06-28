@@ -4,6 +4,24 @@ if (!isset($_GET["food_id"])) {
 }
 require_once 'db_connect.php';
 
+//while adding comments
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
+    $error_message = "";
+    $new_comment_query = "INSERT INTO `food_comments` (`food_comment_id`, `food_id`, `user_id`, `food_comment`, `food_rate`)" .
+        " VALUES (NULL, " . $_GET["food_id"] . "," . $_SESSION['user_id'] . ",'" . $_POST['new_comment'] . "'," .
+        $_POST['new_rate'] . ")";
+    if (!($new_food_result = mysqli_query($db_link, $new_comment_query))) {
+        $error_message = "發生不明的錯誤，請聯絡網站管理員。" . mysqli_error($db_link);
+    }
+    if (!empty($error_message)) {
+        echo "<script language=\"javascript\">\n";
+        echo "alert(\"$error_message\")\n";
+        echo "</script>\n";
+    }
+}
+
+//load data from database
 $food_detail_query = "SELECT * FROM `food` WHERE `food_id` = " . $_GET["food_id"];
 $food_detail_result = mysqli_query($db_link, $food_detail_query);
 if (!$food_detail_result) {
@@ -84,7 +102,8 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
             echo '<div class="column is-one-third"><div class="box">';
             //TODO use star icon instead
             echo '<p class="title">' . $food_comment['food_rate'] . '/5</p>';
-            echo '<p class="subtitle">' . $food_comment['food_comment'] . '</p>';
+            echo '<p class="subtitle" style="white-space: pre-wrap; white-space: -moz-pre-wrap; ' .
+                'white-space: -o-pre-wrap; word-wrap: break-word;">' . $food_comment['food_comment'] . '</p>';
             echo '</div></div>';
             //TODO multi-page selector
         }
@@ -93,7 +112,7 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
     </div>
     <br>
     <h1 class="title">新增留言</h1>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <form action="" method="POST">
 
         <div class="control">
             評分：
@@ -114,6 +133,7 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
         <br>
         <input class="button is-block is-success is-medium" type="submit" value="新增">
     </form>
+    <br>
 
 </div>
 </body>

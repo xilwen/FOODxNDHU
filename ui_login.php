@@ -1,6 +1,6 @@
 <?php
 require_once 'db_connect.php';
-$email = $password = "";
+$email = $password = $_SESSION['user_id'] = "";
 $login_error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,21 +11,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $login_error_message .= "請輸入密碼";
     }
     if (empty($login_error_message)) {
-        $login_query = "SELECT email, password FROM users WHERE email ='";
-        $login_query .= trim($_POST["email"]) . "'";
+        $login_query = "SELECT * FROM users WHERE email ='" . trim($_POST["email"]) . "'";
         if ($login_query_result = mysqli_query($db_link, $login_query)) {
             if (mysqli_num_rows($login_query_result) == 0) {
                 $login_error_message .= "此電子郵件信箱尚未註冊，請註冊新帳號。";
             } else {
-                $row = mysqli_fetch_assoc($login_query_result);
+                $login_query_row = mysqli_fetch_assoc($login_query_result);
                 //shadow password and prevent SQL Injection
                 //DEBUG, can be safely deleted
                 //$login_error_message .= $row['password'];
-                if ($row['password'] != trim($_POST["password"])) {
+                if ($login_query_row['password'] != trim($_POST["password"])) {
                     $login_error_message .= "密碼錯誤，請再試一次。";
                 } else {
                     session_start();
                     $_SESSION['username'] = trim($_POST["email"]);
+                    $_SESSION['user_id'] = $login_query_row['id'];
                     header("location: index.php");
                 }
             }
