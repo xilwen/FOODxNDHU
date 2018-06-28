@@ -19,46 +19,7 @@
     });
 </script>
 
-<section class="hero is-success">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <div class="column is-4 is-offset-4">
-                <h3 class="title has-text-grey">搜尋</h3>
-                <p class="subtitle has-text-grey">請輸入至少一個項目來搜尋餐點，<br>或留白以列出全部項目</p>
-                <div class="box">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                        <div class="field">
-                            <div class="control">
-                                <input class="input is-large" name="restaurant_name" type="text" placeholder="店家名稱"
-                                       autofocus="">
-                            </div>
-                        </div>
 
-                        <div class="field">
-                            <div class="control">
-                                <input class="input is-large" name="food_name" type="text" placeholder="餐點名稱">
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <input class="input is-large" name="price_higher_than" type="text" placeholder="價位高於">
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <input class="input is-large" name="price_lower_than" type="text" placeholder="價位低於">
-                            </div>
-                        </div>
-                        <input type="hidden" name="action" value="search">
-                        <input class="button is-block is-success is-large" type="submit" value="搜尋">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <script async type="text/javascript" src="js/bulma.js"></script>
 </body>
 </html>
@@ -69,6 +30,7 @@ session_start();
 require_once 'db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo '<br><br><br><h3 class="container has-text-centered title has-text-grey">搜尋結果</h3><br>';
     if ($_POST["action"] == "addFav") {
         $user_id_query = "SELECT `id` FROM `users` WHERE `email` ='";
         $user_id_query .= $_SESSION['username'] . "'";
@@ -149,6 +111,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<center> 系統錯誤 </center><br>' . mysqli_error($db_link);
         }
     }
+}
+else
+{
+    ?>
+    <section class="hero is-success">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <h3 class="title has-text-grey">搜尋</h3>
+                    <p class="subtitle has-text-grey">請輸入至少一個項目來搜尋餐點，<br>或留白以列出全部項目</p>
+                    <div class="box">
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" name="restaurant_name" type="text" placeholder="店家名稱"
+                                        autofocus="">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" name="food_name" type="text" placeholder="餐點名稱">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" name="price_higher_than" type="text" placeholder="價位高於">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" name="price_lower_than" type="text" placeholder="價位低於">
+                                </div>
+                            </div>
+                            <input type="hidden" name="action" value="search">
+                            <input class="button is-block is-success is-large" type="submit" value="搜尋">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
 }
 
 ?>
