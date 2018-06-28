@@ -47,6 +47,7 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
     <title><?php echo $food_detail['food_name'] ?> - 美食東華</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/detail_page_style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 <body>
@@ -65,7 +66,10 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
                     <?php echo $food_detail['food_name'] ?>
                 </h1>
                 <h2 class="subtitle">
-                    <?php echo $restaurant_detail['restaurant_name'] ?>
+                    <?php
+                    echo '<a href = detail_restaurant.php?store_id=' . $food_detail['restaurant_id'] .
+                        '>' . $restaurant_detail['restaurant_name']  . '</a>';
+                    ?>
                 </h2>
             </div>
         </div>
@@ -102,8 +106,7 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
             echo '<div class="column is-one-third"><div class="box">';
             //TODO use star icon instead
             echo '<p class="title">' . $food_comment['food_rate'] . '/5</p>';
-            echo '<p class="subtitle" style="white-space: pre-wrap; white-space: -moz-pre-wrap; ' .
-                'white-space: -o-pre-wrap; word-wrap: break-word;">' . $food_comment['food_comment'] . '</p>';
+            echo '<p class="wordwrap subtitle">' . $food_comment['food_comment'] . '</p>';
             echo '</div></div>';
             //TODO multi-page selector
         }
