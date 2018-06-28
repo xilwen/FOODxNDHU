@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.24.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/promise-polyfill"></script>
 </head>
 
 <body>
@@ -43,6 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $addfav_query = 'INSERT INTO `users_favorite` (`user_favorite_id`, `user_id`, `food_id`) VALUES (NULL, ';
         $addfav_query .= $user_id . ',' . $_POST["food_id"] . ')';
         if ($addfav_query_result = mysqli_query($db_link, $addfav_query)) {
+            echo '<script type="text/javascript">';
+            echo 'swal({';
+            echo   "type: 'success',";
+            echo   "title: '已經新增到關注清單。',";
+            echo   "showConfirmButton: false,";
+            echo   "timer: 2000";
+            echo   "});";
+            echo "setTimeout(\"location.href = 'ui_search.php';\",2000);";
+            echo '</script>';
             echo('<center>已經新增到關注清單。</center>');
         } else {
             echo('<center>新增到關注清單時發生意外</center>');
@@ -83,18 +94,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo '<center><table class="table"><thead><tr><th>店家名稱</th><th>餐點名稱</th><th>餐點價位</th><th>加入關注清單</th></tr></thead><tbody>';
                 while ($data = mysqli_fetch_assoc($integrate_query_result)) {
-                    $fav_check_query = "SELECT users.id FROM users_favorite LEFT JOIN users ON users.id = users_favorite.user_id WHERE users.email = \"" . $_SESSION['username'] . "\" AND users_favorite.food_id = " . $data['food_id'];
+                    $fav_check_query = "SELECT users_favorite.user_favorite_id FROM users_favorite LEFT JOIN users ON users.id = users_favorite.user_id WHERE users.email = \"" . $_SESSION['username'] . "\" AND users_favorite.food_id = " . $data['food_id'];
                     echo '<tr>';
                     echo '<td><a href = detail_restaurant.php?store_id=' . $data['store_id'] . '>' . $data['restaurant_name'] . '</a></td>';
                     echo '<td><a href = detail_food.php?food_id=' . $data['food_id'] . '>' . $data['food_name'] . '</td>';
                     echo '<td>' . $data['food_price'] . '</td>';
-                    if(!($fav_check = mysqli_query($db_link, $fav_check_query)))
+                    $fav_check = mysqli_query($db_link, $fav_check_query);
+                    if($fav_check->num_rows == 0)
                     {
                         echo '<td><form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .
                             '" method="POST"><input class="button is-block is-primary" type="submit" value="加入"><input type="hidden" name="action" value="addFav">' .
                             '<input type="hidden" name="food_id" value=' . $data['food_id'] . '></form>'
                             . '</td>';
-                       
                     }
                     else
                     {

@@ -1,6 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>關注清單 - 美食東華</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.24.1/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/promise-polyfill"></script>
+
+    <link rel="stylesheet" href="css/buttons.css">
+</head>
+<body>
+
 <?php
 require_once 'db_connect.php';
 $error_message = "";
+$type_message = "";
 $user_id = 0;
 session_start();
 
@@ -9,8 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $delete_query = 'DELETE FROM `users_favorite` WHERE `users_favorite`.`user_favorite_id` = ' . $_POST["user_favorite_id"];
         if ($user_id_query_result = mysqli_query($db_link, $delete_query)) {
             $error_message .= "刪除成功";
+            $type_message = "success";
         } else {
             $error_message .= "刪除失敗" . mysqli_error($db_link);
+            $type_message = "error";
         }
     }
 }
@@ -25,31 +46,19 @@ if ($user_id_query_result = mysqli_query($db_link, $user_id_query)) {
     $user_id = $row['id'];
 } else {
     $error_message .= "發生意外的錯誤。" . mysqli_error($db_link);
+    $type_message = "warning";
 }
 if (!empty($error_message)) {
-    echo "<script language=\"javascript\">\n";
-    echo "alert(\"$error_message\")\n";
-    echo "</script>\n";
+    echo '<script type="text/javascript">';
+    echo 'swal({';
+    echo   "type: '". $type_message ."',";
+    echo   "title: '". $error_message ."',";
+    echo   "showConfirmButton: false,";
+    echo   "timer: 2000";
+    echo   "})";
+    echo '</script>';
 }
-
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>關注清單 - 美食東華</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/login.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    
-    <link rel="stylesheet" href="css/buttons.css">
-</head>
-
-<body>
 <div id="nav-placeholder"></div>
 <script>
     $(function () {
@@ -106,9 +115,9 @@ if (!empty($error_message)) {
                         }
                         $user_favorite_id = $data['user_favorite_id'];
                         
-                        echo '<div class="is-primary notification">';
+                        echo '<div class="is-white notification">';
                         echo "<p class=\"subtitle\">$food_name</p>";
-                        echo "餐廳：$restaurant_name<br>$food_price 元<br><br>";
+                        echo "餐廳：$restaurant_name<br><b>$food_price 元</b><br><br>";
                         echo '<form action="';
                         echo htmlspecialchars($_SERVER["PHP_SELF"]);
                         echo '" method="POST">';
