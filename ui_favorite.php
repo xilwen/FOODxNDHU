@@ -45,6 +45,8 @@ if (!empty($error_message)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    
+    <link rel="stylesheet" href="css/buttons.css">
 </head>
 
 <body>
@@ -106,15 +108,16 @@ if (!empty($error_message)) {
                         
                         echo '<div class="is-primary notification">';
                         echo "<p class=\"subtitle\">$food_name</p>";
-                        echo "餐廳：$restaurant_name<br>$food_price 元<br>";
+                        echo "餐廳：$restaurant_name<br>$food_price 元<br><br>";
                         echo '<form action="';
                         echo htmlspecialchars($_SERVER["PHP_SELF"]);
                         echo '" method="POST">';
-                        echo '<input class="button is-block is-danger" type="submit" value="刪除">';
+                        echo '<input class="button button-glow button-rounded button-caution" type="submit" value="刪除">';
                         echo "<input type=\"hidden\" name=\"user_favorite_id\" value=$user_favorite_id>";
                         echo '</form>';
                         echo '</div>';
                         echo '</div>';
+                        
                     }
                 }
             } else {
