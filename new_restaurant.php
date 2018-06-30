@@ -7,13 +7,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["restaurant_name"])) || empty(trim($_POST["restaurant_address"]))) {
         $error_message .= "請填入必要欄位";
     } else {
-        $new_restaurant_query = "INSERT INTO `restaurant` (`store_id`, `restaurant_name`, `restaurant_address`, `restaurant_phone`, `restaurant_takeout`, `restaurant_fbpage`, `restaurant_lineid`) VALUES (NULL, '";
+        $new_restaurant_query = "INSERT INTO `restaurant` (`store_id`, `restaurant_name`, `restaurant_address`, `restaurant_phone`, `restaurant_takeout`, `restaurant_fbpage`, `restaurant_lineid`, `restaurant_review_url`) VALUES (NULL, '";
         $new_restaurant_query .= trim($_POST["restaurant_name"]) . "', '";
         $new_restaurant_query .= trim($_POST["restaurant_address"]) . "', '";
         $new_restaurant_query .= trim($_POST["restaurant_phone"]) . "', '";
         $new_restaurant_query .= trim($_POST["restaurant_takeout"]) . "', '";
         $new_restaurant_query .= trim($_POST["restaurant_fbpage"]) . "', '";
-        $new_restaurant_query .= trim($_POST["restaurant_lineid"]) . "')";
+        $new_restaurant_query .= trim($_POST["restaurant_lineid"]) . "', '";
+        $new_restaurant_query .= trim($_POST["restaurant_review_url"]) . "')";
         if ($new_restaurant_result = mysqli_query($db_link, $new_restaurant_query)) {
             $error_message .= "新增成功";
         } else {
@@ -100,6 +101,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="control">
                                 <input class="input is-large" name="restaurant_lineid" type="text"
                                        placeholder="LINE ID">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-large" name="restaurant_review_url" type="text"
+                                       placeholder="相關文章/Review">
                             </div>
                         </div>
 

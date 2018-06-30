@@ -75,44 +75,55 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">連絡電話</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_phone'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_phone'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
-                <div class="box">
+                <div class="box ">
                     <p class="title">外送規定</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_takeout'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_takeout'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">Facebook 粉絲專頁</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_fbpage'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_fbpage'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">LINE ID</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_lineid'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_lineid'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">Review</p>
-                    <p class="subtitle">
-                        <?php echo '<a href="' . $restaurant_detail['restaurant_review_url'] . '">' .
+                    <p class="subtitle wordwrap"><?php echo '<a href="' . $restaurant_detail['restaurant_review_url'] . '">' .
                             $restaurant_detail['restaurant_review_url'] . '</a>'
                         ?></p>
                 </div>
             </div>
         </div>
     </div>
-
     <br>
+
+    <div>
+        <br>
+        <h1 class="title">地圖</h1>
+        <iframe
+                width="100%"
+                height="450"
+                frameborder="0" style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDobfwGdtGBuyZIg7RceDXTHzGs2J4Da1I&q=<?php echo urlencode($restaurant_detail['restaurant_address']) ?>" allowfullscreen>
+        </iframe>
+    </div>
+    <br>
+
     <h1 class="title">評論</h1>
 
     <div class="columns is-multiline">
