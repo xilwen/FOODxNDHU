@@ -47,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($addfav_query_result = mysqli_query($db_link, $addfav_query)) {
             echo '<script type="text/javascript">';
             echo 'swal({';
-            echo   "type: 'success',";
-            echo   "title: '已經新增到關注清單。',";
-            echo   "showConfirmButton: false,";
-            echo   "timer: 2000";
-            echo   "});";
+            echo "type: 'success',";
+            echo "title: '已經新增到關注清單。',";
+            echo "showConfirmButton: false,";
+            echo "timer: 2000";
+            echo "});";
             echo "setTimeout(\"location.href = 'ui_search.php';\",2000);";
             echo '</script>';
             echo('<center>已經新增到關注清單。</center>');
@@ -94,37 +94,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo '<center><table class="table"><thead><tr><th>店家名稱</th><th>餐點名稱</th><th>餐點價位</th><th>加入關注清單</th></tr></thead><tbody>';
                 while ($data = mysqli_fetch_assoc($integrate_query_result)) {
-                    $fav_check_query = "SELECT users_favorite.user_favorite_id FROM users_favorite LEFT JOIN users ON users.id = users_favorite.user_id WHERE users.email = \"" . $_SESSION['username'] . "\" AND users_favorite.food_id = " . $data['food_id'];
+
                     echo '<tr>';
                     echo '<td><a href = detail_restaurant.php?store_id=' . $data['store_id'] . '>' . $data['restaurant_name'] . '</a></td>';
                     echo '<td><a href = detail_food.php?food_id=' . $data['food_id'] . '>' . $data['food_name'] . '</td>';
                     echo '<td>' . $data['food_price'] . '</td>';
-                    $fav_check = mysqli_query($db_link, $fav_check_query);
-                    if($fav_check->num_rows == 0)
-                    {
-                        echo '<td><form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .
-                            '" method="POST"><input class="button is-block is-primary" type="submit" value="加入"><input type="hidden" name="action" value="addFav">' .
-                            '<input type="hidden" name="food_id" value=' . $data['food_id'] . '></form>'
-                            . '</td>';
+                    if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+                        $fav_check_query = "SELECT users_favorite.user_favorite_id FROM users_favorite LEFT JOIN users ON users.id = users_favorite.user_id WHERE users.email = \"" . $_SESSION['username'] . "\" AND users_favorite.food_id = " . $data['food_id'];
+                        $fav_check = mysqli_query($db_link, $fav_check_query);
+
+                        if ($fav_check->num_rows == 0) {
+                            echo '<td><form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) .
+                                '" method="POST"><input class="button is-block is-primary" type="submit" value="加入"><input type="hidden" name="action" value="addFav">' .
+                                '<input type="hidden" name="food_id" value=' . $data['food_id'] . '></form>'
+                                . '</td>';
+                        } else {
+                            echo '<td><input class="button is-block is-warning" type="submit" value="已加入">'
+                                . '</td>';
+                        }
                     }
-                    else
-                    {
-                        echo '<td><input class="button is-block is-warning" type="submit" value="已加入">'
-                            . '</td>';
-                    }
-                     echo '</tr>';
+                    echo '</tr>';
                 }
 
                 echo '</tbody></table></center>';
+                if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+                    echo '<br><center>請登入以使用關注清單功能。</center>';
+                }
             }
 
         } else {
             echo '<center> 系統錯誤 </center><br>' . mysqli_error($db_link);
         }
     }
-}
-else
-{
+} else {
     ?>
     <section class="hero is-success">
         <div class="hero-body">
@@ -137,7 +139,7 @@ else
                             <div class="field">
                                 <div class="control">
                                     <input class="input is-large" name="restaurant_name" type="text" placeholder="店家名稱"
-                                        autofocus="">
+                                           autofocus="">
                                 </div>
                             </div>
 
@@ -149,13 +151,15 @@ else
 
                             <div class="field">
                                 <div class="control">
-                                    <input class="input is-large" name="price_higher_than" type="text" placeholder="價位高於">
+                                    <input class="input is-large" name="price_higher_than" type="text"
+                                           placeholder="價位高於">
                                 </div>
                             </div>
 
                             <div class="field">
                                 <div class="control">
-                                    <input class="input is-large" name="price_lower_than" type="text" placeholder="價位低於">
+                                    <input class="input is-large" name="price_lower_than" type="text"
+                                           placeholder="價位低於">
                                 </div>
                             </div>
                             <input type="hidden" name="action" value="search">
