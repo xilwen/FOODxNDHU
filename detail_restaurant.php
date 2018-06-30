@@ -110,8 +110,20 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
             </div>
         </div>
     </div>
-
     <br>
+
+    <div>
+        <br>
+        <h1 class="title">地圖</h1>
+        <iframe
+                width="100%"
+                height="450"
+                frameborder="0" style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDobfwGdtGBuyZIg7RceDXTHzGs2J4Da1I&q=<?php echo urlencode($restaurant_detail['restaurant_address']) ?>" allowfullscreen>
+        </iframe>
+    </div>
+    <br>
+
     <h1 class="title">評論</h1>
 
     <div class="columns is-multiline">
