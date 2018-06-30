@@ -75,36 +75,35 @@ $restaurant_detail = mysqli_fetch_assoc($restaurant_detail_result);
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">連絡電話</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_phone'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_phone'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
-                <div class="box">
+                <div class="box ">
                     <p class="title">外送規定</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_takeout'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_takeout'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">Facebook 粉絲專頁</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_fbpage'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_fbpage'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">LINE ID</p>
-                    <p class="subtitle"><?php echo $restaurant_detail['restaurant_lineid'] ?></p>
+                    <p class="subtitle wordwrap"><?php echo $restaurant_detail['restaurant_lineid'] ?></p>
                 </div>
             </div>
 
             <div class="column is-one-third">
                 <div class="box">
                     <p class="title">Review</p>
-                    <p class="subtitle">
-                        <?php echo '<a href="' . $restaurant_detail['restaurant_review_url'] . '">' .
+                    <p class="subtitle wordwrap"><?php echo '<a href="' . $restaurant_detail['restaurant_review_url'] . '">' .
                             $restaurant_detail['restaurant_review_url'] . '</a>'
                         ?></p>
                 </div>
