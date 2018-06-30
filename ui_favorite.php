@@ -121,7 +121,7 @@ if (!empty($error_message)) {
                         echo '<form action="';
                         echo htmlspecialchars($_SERVER["PHP_SELF"]);
                         echo '" method="POST">';
-                        echo '<input class="button button-glow button-rounded button-caution" type="submit" value="刪除">';
+                        echo '<input class="unicorn-button button-glow button-rounded button-caution" type="submit" value="刪除">';
                         echo "<input type=\"hidden\" name=\"user_favorite_id\" value=$user_favorite_id>";
                         echo '</form>';
                         echo '</div>';
